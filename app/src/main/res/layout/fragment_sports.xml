@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="@dimen/width_size_5">
+
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/width_size_10"
+            android:text="@string/city_name"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_16"/>
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="@dimen/width_size_0"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="@string/temperature"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_18"/>
+        <TextView
+            android:id="@+id/air_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/width_size_10"
+            android:text="@string/air_quality"
+            android:gravity="right"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_16"
+            android:background="@drawable/text_gray_background"/>
+    </LinearLayout>
+
+    <mrkj.library.wheelview.circlebar.CircleBar
+        android:id="@+id/show_progress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/width_size_0"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/want_steps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/width_size_3"
+        android:gravity="center"
+        android:textColor="@color/theme_blue_two"
+        android:textSize="@dimen/font_size_18"
+        android:text="目标步数" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/width_size_10"
+        android:layout_marginBottom="@dimen/width_size_10"
+        android:paddingLeft="@dimen/width_size_30"
+        android:paddingRight="@dimen/width_size_30">
+
+        <TextView
+            android:id="@+id/mileage_txt"
+            android:layout_width="@dimen/width_size_0"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/font_size_20"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_18"
+            android:drawableLeft="@mipmap/mrkj_mileage"
+            android:text="@string/mileage"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/heat_txt"
+            android:layout_width="@dimen/width_size_0"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/font_size_20"
+            android:textSize="@dimen/font_size_18"
+            android:drawableLeft="@mipmap/mrkj_heat"
+            android:text="@string/heat"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/watm_background_gray">
+
+        <ImageButton
+            android:id="@+id/warm_up"
+            android:layout_width="@dimen/width_size_100"
+            android:layout_height="@dimen/width_size_100"
+            android:layout_marginTop="@dimen/width_size_20"
+            android:scaleType="fitXY"
+            android:layout_centerInParent="true"
+            android:src="@drawable/warm_up_selector"
+            android:background="@null"/>
+    </RelativeLayout>
+
+</LinearLayout>
