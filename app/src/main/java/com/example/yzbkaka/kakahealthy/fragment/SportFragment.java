@@ -1,6 +1,8 @@
 package com.example.yzbkaka.kakahealthy.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yzbkaka.kakahealthy.R;
+import com.example.yzbkaka.kakahealthy.entity.PMInfo;
+import com.example.yzbkaka.kakahealthy.entity.SaveKeyValues;
+import com.example.yzbkaka.kakahealthy.entity.StepDetector;
+import com.example.yzbkaka.kakahealthy.entity.TodayInfo;
+import com.example.yzbkaka.kakahealthy.utils.Constant;
 import com.example.yzbkaka.kakahealthy.utils.HttpUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 
 import mrkj.library.wheelview.circlebar.CircleBar;
@@ -38,14 +47,14 @@ public class SportFragment extends Fragment {
     private ImageButton warm;  //跳转按钮
     private TodayInfo todayInfo;  //今日的天气
     private PMInfo pmInfo;  //pm
-    private String weatherUrl;  //天气预报的接口
+    private String weatherUrl;  //天气预报的接口网址
     private String queryCityName;  //查询天气的城市
     private int customSteps;  //用户的步数
     private int customStepLength;  //用户的步长
     private int customWeight;  //用户的体重
-    private Thread getStepThread;  //线程
+    private Thread getStepThread;  //记步的线程
     private Intent stepService;  //记步数服务
-    private boolean isStop;  //是否运行子线程
+    private boolean isStop;  //是否在运行子线程
     private Double distanceValues;  //路程：米
     private int stepValues;  //步数
     private Double heatValues;  //热量
@@ -72,7 +81,7 @@ public class SportFragment extends Fragment {
                     SaveKeyValues.putStringValues("sport_distance",formatDouble(distanceValues));
                     heatValues = customWeight * distanceValues * 1.036;  //计算消耗热量
                     heat.setText(formatDouble(heatValues) + context.getString(R.string.cal));  //显示热量
-                    SaveKeyValues.putStringValues("sport_heat",formatDouble(heatValues));
+                    SaveKeyValues.putStringValues("sport_heat",formatDouble(heatValues));  //存储热量
                     break;
             }
             return false;
@@ -90,11 +99,28 @@ public class SportFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_sports,container,false);  //设置view
         initView();  //初始化控件
         initValues();  //初始化数据
-        setNature(); //设置功能
+        setNature();  //设置功能
+        if(StepDetector.CURRENT_SETP > customSteps){  //当实际步数超过目标步数
+            Toast.makeText(context, "今日的目标步数已完成", Toast.LENGTH_SHORT).show();
+        }
+        if(SaveKeyValues.getIntValues("do_hint",0) == 1 && (System.currentTimeMillis() > (SaveKeyValues.getLongValues("show_hint",0) + Constant.DAY_FOR_24_HOURS))){  //如果在一天以内没有完成目标
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());  //设置弹窗
+            alertDialog.setTitle("提示");
+            alertDialog.setMessage("目标步数没有完成");
+            alertDialog.setPositiveButton("点击确定不再提示",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SaveKeyValues.putIntValues("do_hint",0);  //点击后存值
+                        }
+                    });
+            alertDialog.create();  //创建弹窗
+            alertDialog.show();  //显示弹窗
+        }
         return view;
     }
 
-    private void initView(){
+    private void initView(){  //初始化控件
         circleBar = (CircleBar)view.findViewById(R.id.show_progress);
         cityName = (TextView)view.findViewById(R.id.city_name);
         cityTemperature = (TextView)view.findViewById(R.id.temperature);
@@ -105,20 +131,38 @@ public class SportFragment extends Fragment {
         wantSteps = (TextView)view.findViewById(R.id.want_steps);
     }
 
-    private void initValues(){
-
+    private void initValues(){  //初始化数据并开启记步服务
+        queryCityName = SaveKeyValues.getStringValues("city","北京");
+        try{
+            weatherUrl = String.format(Constant.GET_DATA, URLEncoder.encode(queryCityName,"utf-8"));  //获取网络链接URL
+            downLoadDataFromNet();  //下载网络数据
+        }catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+        isStop = false;  //初始值为false
+        duration = 800;  //初始动画时长
+        customSteps = SaveKeyValues.getIntValues("step_plan",6000);  //用户的步数
+        customStepLength = SaveKeyValues.getIntValues("length",70);  //用户的步长
+        customWeight = SaveKeyValues.getIntValues("weight",50);  //用户的体重
+        int history_values = SaveKeyValues.getIntValues("sport_steps",0);  //获取历史步数
+        int service_values = StepDetector.CURRENT_SETP;  //获得实际步数
+        boolean isLaunch = getArguments().getBoolean("is_launch",false);
+        if(isLaunch){
+            StepDetector.CURRENT_SETP = history_values + service_values;
+        }
+        stepValues = new Integer(getContext(),StepCounterService.class);  //开启记步服务
+        getContext().startService(stepService);
     }
 
-    private void setNature(){
+    private void setNature(){  //设置功能
         circleBar.setcolor(R.color.theme_blue_two);  //设置进度条颜色
         circleBar.setMaxstepnumber(customSteps);  //设置进度条的最大值
-        getServiceValue();
+        getServiceValue();  //获取步数信息
         warm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "跳转热身界面", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(),PlayActivity.class);  //跳转到热身界面
-                intent.putExtra("play_type",0);
+                intent.putExtra("play_type",0);  //传递信息
                 intent.putExtra("what",0);
                 startActivity(intent);
             }
@@ -131,7 +175,7 @@ public class SportFragment extends Fragment {
             @Override
             public void run() {
                 String str = HttpUtil.getJSONStr(weatherUrl);
-                Message message = Message.obtain();  //Handler机制
+                Message message = new Message();  //Handler机制
                 message.obj = str;
                 message.what = WEATHER_MESSAGE;
                 handler.sendMessage(message);
@@ -164,7 +208,7 @@ public class SportFragment extends Fragment {
     private void setDownLoadMessageToView(String resultStr){  //将天气数据显示出来
         todayInfo = HttpUtil.parseNowJSON(resultStr);  //获取当日的天气信息
         pmInfo = HttpUtil.parsePMInfoJSON(resultStr);  //获取PM2.5的数据
-        if(isAdded()){
+        if(isAdded()){  //判断fragment是否被加载到Activity当中
             cityName.setText(context.getString(R.string.city) + queryCityName);
             cityTemperature.setText(context.getString(R.string.temperature_hint) + todayInfo.getTemperature() + getString(R.string.temperature_unit));
             cityAirQuality.setText(context.getString(R.string.quality) + pmInfo.getQuality());

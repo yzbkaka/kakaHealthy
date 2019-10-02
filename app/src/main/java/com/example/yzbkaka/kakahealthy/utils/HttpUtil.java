@@ -2,6 +2,9 @@ package com.example.yzbkaka.kakahealthy.utils;
 
 import android.text.TextUtils;
 
+import com.example.yzbkaka.kakahealthy.entity.PMInfo;
+import com.example.yzbkaka.kakahealthy.entity.TodayInfo;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,7 +98,7 @@ public class HttpUtil {
                 // 构件对象
                 TodayInfo todayInfo = new TodayInfo();
                 todayInfo.setWindspeed(windspeed);
-                todayInfo.setCity_name(city_name);
+                todayInfo.setCityName(city_name);
                 todayInfo.setDate(date);
                 todayInfo.setDirect(direct);
                 todayInfo.setHumidity(humidity);

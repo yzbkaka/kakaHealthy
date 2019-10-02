@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:padding="@dimen/width_size_5">
 
         <TextView
@@ -18,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/width_size_10"
             android:text="@string/city_name"
-            android:gravity="left"
             android:textColor="@color/black"
             android:textSize="@dimen/font_size_16"/>
         <TextView
@@ -36,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/width_size_10"
             android:text="@string/air_quality"
-            android:gravity="right"
             android:textColor="@color/black"
             android:textSize="@dimen/font_size_16"
             android:background="@drawable/text_gray_background"/>
