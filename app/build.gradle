@@ -25,12 +25,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile(name:'library-debug',ext:'aar')
+    compile(name: 'library-debug', ext: 'aar')
     compile 'org.apache.httpcomponents:httpcore:4.4.4'
 }
 
-repositories{
-    flatDir{
+repositories {
+    flatDir {
         dirs 'libs'
     }
 }

@@ -10,7 +10,7 @@ import android.hardware.SensorManager;
  * Created by yzbkaka on 19-10-2.
  */
 
-public class StepDetector implements SensorEventListener {  //记步算法（开源代码）
+public class StepDetector implements SensorEventListener {  //记步算法（开源代码），是一个传感器
 
     public static int CURRENT_SETP = 0;
     public int walk = 0;
@@ -34,7 +34,7 @@ public class StepDetector implements SensorEventListener {  //记步算法（开
     /**
      * 传入上下文的构造函数
      *
-     * @param context
+     *
      */
     public StepDetector(Context context) {
         super();
