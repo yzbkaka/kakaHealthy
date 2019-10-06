@@ -16,7 +16,7 @@ public class SaveKeyValues {  //使用SharedPreferences存储数据
     public static void createSharePreferences(Context context) {
         String appName = context.getPackageName();
         Log.e("储存的文件名",appName);
-        sharedPreferences = context.getSharedPreferences(appName, Context.MODE_WORLD_WRITEABLE);
+        sharedPreferences = context.getSharedPreferences(appName, 0);
         editor = sharedPreferences.edit();
     }
 

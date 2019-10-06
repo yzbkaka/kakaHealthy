@@ -21,7 +21,7 @@ import java.net.URL;
  */
 
 public class HttpUtil {
-    private static String userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
+    private static String userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";  //设置浏览器的配置
     private static final int DEF_CONN_TIMEOUT = 30000;
     private static final int DEF_READ_TIMEOUT = 30000;
     private static final String DEF_CHATSET = "UTF-8";
@@ -29,28 +29,28 @@ public class HttpUtil {
     public static final String TEMPERATURE = "°C";// 温度单位
 
     public static String getJSONStr(String dataUrl) {  //使用HttpUrl获取Json数据
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
+        HttpURLConnection connection = null;  //获取HttpURLConnection实例
+        BufferedReader reader = null;  //流式读取
         String rs = null;
         try {
-            StringBuffer sb = new StringBuffer();
-            URL url = new URL(dataUrl);
+            StringBuffer stringBuffer = new StringBuffer();
+            URL url = new URL(dataUrl);  //获得URL实例
             connection = (HttpURLConnection) url.openConnection();// 引用这个url
-            connection.setRequestProperty("User-agent", userAgent);
-            connection.setUseCaches(false);
-            connection.setConnectTimeout(DEF_CONN_TIMEOUT);
-            connection.setReadTimeout(DEF_READ_TIMEOUT);
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-agent", userAgent);  //为我们的请求设置信息（告诉服务器我们的需求）
+            connection.setUseCaches(false);  //设置是否使用缓存
+            connection.setConnectTimeout(DEF_CONN_TIMEOUT);  //设置连接超时时间
+            connection.setReadTimeout(DEF_READ_TIMEOUT);  //设置读取超时时间
+            connection.setInstanceFollowRedirects(false);  //是否设置连接重定向（跳转）
+            connection.setRequestMethod("GET");  //设置为向服务器获得数据（请求）
             connection.connect();// 打开连接
-            if (connection.getResponseCode() == 200) {// code为200位连接服务器成功
-                InputStream is = connection.getInputStream();// 获取输入流
-                reader = new BufferedReader(new InputStreamReader(is, DEF_CHATSET));
+            if (connection.getResponseCode() == 200) {  //服务器返回code为200时则连接服务器成功
+                InputStream inputStream = connection.getInputStream();// 获取输入流
+                reader = new BufferedReader(new InputStreamReader(inputStream, DEF_CHATSET));
                 String strRead = null;
                 while ((strRead = reader.readLine()) != null) {
-                    sb.append(strRead);
+                    stringBuffer.append(strRead);  //存储获得的数据
                 }
-                rs = sb.toString();
+                rs = stringBuffer.toString();
                 return rs;
             }
         } catch (MalformedURLException e) {
@@ -72,11 +72,11 @@ public class HttpUtil {
         return null;
     }
 
-    public static TodayInfo parseNowJSON(String str) {
+    public static TodayInfo parseNowJSON(String str) {  //解析JSON数据
         try {
             JSONObject jsonObject = new JSONObject(str);
-            String reason = jsonObject.getString("reason");
-            if (TextUtils.equals("successed!", reason)) {
+            String reason = jsonObject.getString("reason");  //获得返回的状态
+            if (TextUtils.equals("successed!", reason)) {  //如果返回状态成功（successed）
                 JSONObject result = jsonObject.getJSONObject("result");
                 JSONObject data = result.getJSONObject("data");
                 JSONObject realtime = data.getJSONObject("realtime");
@@ -95,7 +95,7 @@ public class HttpUtil {
                 String city_name = realtime.getString("city_name");
                 String week = realtime.getString("week");
                 String moon = realtime.getString("moon");
-                // 构件对象
+                // 构造对象并存入数据
                 TodayInfo todayInfo = new TodayInfo();
                 todayInfo.setWindspeed(windspeed);
                 todayInfo.setCityName(city_name);

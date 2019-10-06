@@ -27,13 +27,13 @@ import java.util.TimeZone;
 public  class StepCounterService extends Service {  //记步服务
     public static final String alarmSaveService = "mrkj.healthylife.SETALARM";
     private static final String TAG = "StepCounterService";
-    public static Boolean FLAG = false;  // 服务运行标志
+    public static Boolean FLAG = false;  //服务是否运行的标志
 
-    private SensorManager mSensorManager;  // 传感器服务
-    public StepDetector detector;  // 传感器监听对象(记步算法的对象)
+    private SensorManager mSensorManager;  //传感器服务
+    public StepDetector detector;  //传感器监听对象(记步算法的对象)
 
-    private PowerManager mPowerManager;  // 电源管理服务
-    private PowerManager.WakeLock mWakeLock;  // 屏幕灯
+    private PowerManager mPowerManager;  //电源管理服务
+    private PowerManager.WakeLock mWakeLock;  //屏幕灯
     private AlarmManager alarmManager;  //闹钟管理器
     private PendingIntent pendingIntent;  //延迟意图
     private Calendar calendar;  //日期
@@ -48,7 +48,7 @@ public  class StepCounterService extends Service {  //记步服务
     public void onCreate() {
         super.onCreate();
         FLAG = true;  // 标记为服务正在运行
-        detector = new StepDetector(this);//实例化传感器对象
+        detector = new StepDetector(this);  //实例化传感器对象
         detector.walk = 1;//设置步数从1开始
         mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);  //获取传感器的服务，初始化传感器
         mSensorManager.registerListener(detector,mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_NORMAL);  //注册传感器，注册监听器
@@ -56,9 +56,9 @@ public  class StepCounterService extends Service {  //记步服务
         mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "S");  //保持设备状态
         mWakeLock.acquire();
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);  //设置一个定时服务
-        calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar = Calendar.getInstance();  //获取时间
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));  //设置时区
+        calendar.setTimeInMillis(System.currentTimeMillis());  //获取当前时间
         calendar.set(Calendar.HOUR_OF_DAY, 23);  //时
         calendar.set(Calendar.MINUTE, 59);  //分
         calendar.set(Calendar.SECOND, 0);  //秒
