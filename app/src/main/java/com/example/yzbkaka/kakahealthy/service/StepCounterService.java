@@ -14,6 +14,7 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.example.yzbkaka.kakahealthy.entity.StepDetector;
+import com.example.yzbkaka.kakahealthy.receiver.FunctionBroadcastReceiver;
 
 import java.util.Calendar;
 import java.util.List;
@@ -46,7 +47,6 @@ public  class StepCounterService extends Service {  //记步服务
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG, "后台服务开始");
         FLAG = true;  // 标记为服务正在运行
         detector = new StepDetector(this);//实例化传感器对象
         detector.walk = 1;//设置步数从1开始
@@ -63,7 +63,7 @@ public  class StepCounterService extends Service {  //记步服务
         calendar.set(Calendar.MINUTE, 59);  //分
         calendar.set(Calendar.SECOND, 0);  //秒
         calendar.set(Calendar.MILLISECOND, 0);  //毫秒
-        intent = new Intent(this, FunctionBroadcastReceiver.class);//发送广播的意图
+        intent = new Intent(this, FunctionBroadcastReceiver.class);  //发送广播的意图
         intent.setAction(alarmSaveService);  //设置Action
         pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);  //设置定时器
@@ -101,7 +101,7 @@ public  class StepCounterService extends Service {  //记步服务
         }
     }
 
-    public static boolean isActivityRunning(Context mContext) {
+   /* public static boolean isActivityRunning(Context mContext) {
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
         if (info != null && info.size() > 0) {
@@ -111,7 +111,7 @@ public  class StepCounterService extends Service {  //记步服务
             }
         }
         return false;
-    }
+    }*/
 
 }
 
