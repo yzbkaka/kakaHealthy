@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:padding="@dimen/width_size_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/width_size_20"
+            android:text="食物"
+            android:layout_alignParentLeft="true"
+            android:drawableLeft="@mipmap/mrkj_eat"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_18"/>
+        <TextView
+            android:id="@+id/food_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/width_size_20"
+            android:text="热量"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/mrkj_ran"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_18"/>
+    </RelativeLayout>
+</LinearLayout>

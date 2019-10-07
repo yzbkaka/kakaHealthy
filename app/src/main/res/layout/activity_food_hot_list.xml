@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.yzbkaka.kakahealthy.activity.FoodHotListActivity">
+
+    <include layout="@layout/title_layout"/>
+    <ExpandableListView
+        android:id="@+id/food_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/width_size_10"
+        android:groupIndicator="@null"
+        android:childDivider="@color/theme_blue_two"
+        android:dividerHeight="@dimen/width_size_2"
+        android:background="@color/watm_background_gray">
+    </ExpandableListView>
+</LinearLayout>

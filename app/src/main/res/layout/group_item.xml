@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/width_size_10"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/group_image"
+            android:layout_marginLeft="@dimen/width_size_20"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/mrkj_eat"/>
+        <TextView
+            android:id="@+id/group_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="类型"
+            android:textSize="@dimen/width_size_20"
+            android:layout_marginRight="@dimen/width_size_20"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>
