@@ -8,11 +8,11 @@ public class FoodMessage {  //食物的信息类
     private String foodName;  //食物的名字
     private String hot;  //食物的热量
 
-    public String getFood_name() {
+    public String getFoodName() {
         return foodName;
     }
 
-    public void setFood_name(String foodName) {
+    public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
 

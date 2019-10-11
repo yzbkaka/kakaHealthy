@@ -15,15 +15,16 @@ import com.example.yzbkaka.kakahealthy.R;
 import com.example.yzbkaka.kakahealthy.base.BaseActivity;
 import com.example.yzbkaka.kakahealthy.entity.FoodMessage;
 import com.example.yzbkaka.kakahealthy.entity.FoodType;
+import com.example.yzbkaka.kakahealthy.utils.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FoodHotListActivity extends BaseActivity {
-    private int sign = -1;  //
+    private int sign = -1;  //控制列表的展开
     private String[] foodTypeArray;  //食物类型的数组
-    private List<FoodType> foodList;  //食物数据类型的集合
-    private ExpandableListView dataList;
+    private List<FoodType> foodList =  new ArrayList<>();  //创建食物类型的集合
+    private ExpandableListView dataList;  //列表
     private Bitmap[] bitmaps;  //存放图片资源
     private int[] ids;  //存放图片资源的id数组
 
@@ -32,17 +33,19 @@ public class FoodHotListActivity extends BaseActivity {
         initTitle();  //初始化标题
         setTitle("食物热量对照表",this);  //设置标题
         setMyBackGround(R.color.watm_background_gray);  //设置背景
-        setTitleTextColor(R.color.theme_blue_two);  //设置文字颜色
+        setTitleTextColor(R.color.theme_blue_two);  //设置标题文字颜色
         setTitleLeftImage(R.mipmap.mrkj_back_blue);  //设置左边图片
     }
+
 
     @Override
     protected void getLayoutToView() {  //设置界面布局
         setContentView(R.layout.activity_food_hot_list);  //将布局加载进去
     }
 
+
     @Override
-    protected void initValues() {  //初始化食物数据
+    protected void initValues() {  //初始化食物类型
         ids = new int[]{
                 R.mipmap.gu,  //谷
                 R.mipmap.mrkj_cai,  //菜
@@ -54,12 +57,12 @@ public class FoodHotListActivity extends BaseActivity {
                 R.mipmap.mrkj_he,  //喝
                 R.mipmap.mrkj_jun,  //菌
                 R.mipmap.you  //油
-        };
+        };  //图片资源的id数组
         bitmaps = new Bitmap[ids.length];
         for(int i = 0;i < ids.length;i++){
-            bitmaps[i] = BitmapFactory.decodeResource(getResources(),ids[i]);
+            bitmaps[i] = BitmapFactory.decodeResource(getResources(),ids[i]);  //将图片id导入到bitmaps中
         }
-        foodTypeArray = new String[]{  //显示名称的数组
+        foodTypeArray = new String[]{  //顺序要和ids对应
                 "五谷类",
                 "蔬菜类",
                 "水果类",
@@ -70,31 +73,30 @@ public class FoodHotListActivity extends BaseActivity {
                 "饮料类",
                 "菌藻类",
                 "油脂类"
-        };
-        foodList = new ArrayList<>();  //创建食物集合
+        };  //显示名称的数组
         DBHelper dbHelper = new DBHelper();  //创建数据库
-        Cursor cursor = dbHelper.selectAllDataOfTable("hot");  //查询数据库中的数据
-        for(int i = 0;i < 10;i++){
+        Cursor cursor = dbHelper.selectAllDataOfTable("hot");  //根据热量查询数据库中的数据
+        for(int i = 0;i < 10;i++){  //总共有10个类
             FoodType foodType = null;
             List<FoodMessage> foods = null;
             int counts = 1;
-            while(cursor.moveToNext()){
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                String hot = cursor.getString(cursor.getColumnIndex("hot"));
-                String typeName = cursor.getString(cursor.getColumnIndex("type_name"));
+            while(cursor.moveToNext()){  //当一直存在数据
+                String name = cursor.getString(cursor.getColumnIndex("name"));  //得到食物名称
+                String hot = cursor.getString(cursor.getColumnIndex("hot")); //得到食物热量
+                String typeName = cursor.getString(cursor.getColumnIndex("type_name"));  //得到食物类型名称
                 if(counts == 1){
                     foodType = new FoodType();  //实例化对象
                     foods = new ArrayList<>();
                     foodType.setFoodType(typeName);
                 }
                 FoodMessage foodMessage = new FoodMessage();
-                foodMessage.setFoodName(name);
-                foodMessage.setHot(hot);
-                foodMessage.add(foodMessage);
-                foodType.setFoodList(foods);
+                foodMessage.setFoodName(name);  //传入食物的名称
+                foodMessage.setHot(hot);  //传入食物的热量
+                foods.add(foodMessage);  //将食物加入到列表中
+                foodType.setFoodList(foods);  //将这个食物放入到相应的类当中
                 if(counts == 20){
-                    foodList.add(foodType);
-                    break;;
+                    foodList.add(foodType);  //将食物类型添加
+                    break;
                 }
                 counts++;
             }
@@ -102,22 +104,24 @@ public class FoodHotListActivity extends BaseActivity {
         cursor.close();
     }
 
+
     @Override
     protected void initViews() {  //实例化控件
         dataList = (ExpandableListView)findViewById(R.id.food_list);
     }
+
 
     @Override
     protected void setViewsListener() {  //设置点击事件，展开一个，其他的都收起
         dataList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View v, int groupPosition, long id) {
-                if(sign == -1){
-                    dataList.expandGroup(groupPosition);  //展开被选的group
+                if(sign == -1){  //如果没有任何grooup展开
+                    dataList.expandGroup(groupPosition);  //展开被选的group（一级标题）
                     dataList.setSelectedGroup(groupPosition);  //设置选中的group放置到顶端
                     sign = groupPosition;
                 }
-                else if(sign == groupPosition){
+                else if(sign == groupPosition){  //如果有一个展开了，则其他的不能再展开
                     dataList.collapseGroup(sign);
                     sign = -1;
                 }
@@ -131,6 +135,7 @@ public class FoodHotListActivity extends BaseActivity {
             }
         });
     }
+
 
     @Override
     protected void setViewsFunction() {  //创建适配器并绑定
@@ -148,7 +153,7 @@ public class FoodHotListActivity extends BaseActivity {
 
         @Override
         public int getChildrenCount(int groupPosition) {  //每个Group中的Child的数量
-            return foodList.get(groupPosition).getFood_list().size();
+            return foodList.get(groupPosition).getFoodList().size();
         }
 
 
@@ -160,7 +165,7 @@ public class FoodHotListActivity extends BaseActivity {
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {  //获取对应位置中的Child
-            return foodList.get(groupPosition).getFood_list().get(childPosition);
+            return foodList.get(groupPosition).getFoodList().get(childPosition);
         }
 
 
@@ -192,7 +197,7 @@ public class FoodHotListActivity extends BaseActivity {
                 holder.title = (TextView) convertView.findViewById(R.id.group_title);
                 convertView.setTag(holder);
             }else {
-                holder = (GroupViewHolder) convertView.getTag();
+                holder = (GroupViewHolder) convertView.getTag();  //直接获得之前加载好的布局
             }
             holder.image.setImageBitmap(bitmaps[groupPosition]);  //设置显示的图片
             holder.title.setText(foodTypeArray[groupPosition]);  //设置显示的汉字
@@ -212,8 +217,8 @@ public class FoodHotListActivity extends BaseActivity {
             }else {
                 holder = (ChildViewHolder) convertView.getTag();
             }
-            FoodMessage food = foodList.get(groupPosition).getFood_list().get(childPosition);  //获得食物的信息
-            holder.name.setText(food.getFood_name());//设置食物名称
+            FoodMessage food = foodList.get(groupPosition).getFoodList().get(childPosition);  //获得食物的信息
+            holder.name.setText(food.getFoodName());//设置食物名称
             holder.hot.setText(food.getHot()+"千卡/克");      //设置食物热量
             return convertView;
         }
@@ -225,11 +230,13 @@ public class FoodHotListActivity extends BaseActivity {
         }
     }
 
-    class GroupViewHolder{
+
+    class GroupViewHolder{  //一级标题的Holder
         ImageView image;
         TextView title;
     }
-    class ChildViewHolder{
-        TextView name,hot;
+    class ChildViewHolder{  //二级标题的Holder
+        TextView name;
+        TextView hot;
     }
 }

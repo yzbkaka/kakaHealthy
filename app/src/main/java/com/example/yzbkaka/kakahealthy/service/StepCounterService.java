@@ -35,9 +35,9 @@ public  class StepCounterService extends Service {  //记步服务
     private PowerManager mPowerManager;  //电源管理服务
     private PowerManager.WakeLock mWakeLock;  //屏幕灯
     private AlarmManager alarmManager;  //闹钟管理器
-    private PendingIntent pendingIntent;  //延迟意图
+    private PendingIntent pendingIntent;  //延迟Intent
     private Calendar calendar;  //日期
-    private Intent intent;  //意图
+    private Intent intent;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -101,7 +101,7 @@ public  class StepCounterService extends Service {  //记步服务
         }
     }
 
-   /* public static boolean isActivityRunning(Context mContext) {
+    public static boolean isActivityRunning(Context mContext) {
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
         if (info != null && info.size() > 0) {
@@ -111,7 +111,6 @@ public  class StepCounterService extends Service {  //记步服务
             }
         }
         return false;
-    }*/
-
+    }
 }
 

@@ -17,9 +17,10 @@ import com.example.yzbkaka.kakahealthy.R;
 
 public abstract class BaseActivity extends AppCompatActivity {  //抽象类（必须被继承）
 
-    private TextView title_center;  //标题的中间部分
-    private ImageView title_left,title_right;  //标题的左边和右边
-    private RelativeLayout title_relRelativeLayout;  //布局
+    private TextView titleCenter;  //标题的中间部分
+    private ImageView titleLeft;
+    private ImageView titleRight;  //标题的左边和右边
+    private RelativeLayout titleRelativeLayout;  //布局
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +35,17 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
 
 
     public void initTitle(){  //初始化控件
-        title_center = (TextView) findViewById(R.id.titles);
-        title_left = (ImageView) findViewById(R.id.left_btn);
-        title_right = (ImageView) findViewById(R.id.right_btn);
-        title_left.setVisibility(View.INVISIBLE);
-        title_right.setVisibility(View.INVISIBLE);
-        title_relRelativeLayout = (RelativeLayout) findViewById(R.id.title_back);
+        titleCenter = (TextView) findViewById(R.id.titles);
+        titleLeft = (ImageView) findViewById(R.id.left_btn);
+        titleRight = (ImageView) findViewById(R.id.right_btn);
+        titleLeft.setVisibility(View.INVISIBLE);
+        titleRight.setVisibility(View.INVISIBLE);
+        titleRelativeLayout = (RelativeLayout) findViewById(R.id.title_back);
     }
 
 
     public void setMyBackGround(int color){  //设置背景图
-        title_relRelativeLayout.setBackgroundResource(color);
+        titleRelativeLayout.setBackgroundResource(color);
     }
 
 
@@ -58,15 +59,15 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
 
 
     public void setTitle(String name){  //设置标题名称
-        title_center.setText(name);
-        title_left.setVisibility(View.INVISIBLE);
+        titleCenter.setText(name);
+        titleLeft.setVisibility(View.INVISIBLE);  //设置可见
     }
 
 
     public void setTitle(String name,final Activity activity){  //设置标题返回键功能
-        title_center.setText(name);
-        title_left.setVisibility(View.VISIBLE);
-        title_left.setOnClickListener(new View.OnClickListener() {
+        titleCenter.setText(name);
+        titleLeft.setVisibility(View.VISIBLE);
+        titleLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.finish();
@@ -76,41 +77,41 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
 
 
     public ImageView setTitleLeft(String name){  //获取标题左边的按钮
-        title_center.setText(name);
-        title_left.setVisibility(View.VISIBLE);
-        return title_left;
+        titleCenter.setText(name);
+        titleLeft.setVisibility(View.VISIBLE);
+        return titleLeft;
     }
 
 
     public ImageView setTitle(String name,final Activity activity ,int picID){  //设置标题左 中 右 全部显示
-        title_center.setText(name);
-        title_left.setVisibility(View.VISIBLE);
-        title_right.setVisibility(View.VISIBLE);
+        titleCenter.setText(name);
+        titleLeft.setVisibility(View.VISIBLE);
+        titleRight.setVisibility(View.VISIBLE);
         if (picID != 0){
-            title_right.setImageResource(picID);
+            titleRight.setImageResource(picID);
         }
-        title_left.setOnClickListener(new View.OnClickListener() {
+        titleLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.finish();
             }
         });
-        return title_right;
+        return titleRight;
     }
 
 
     public void setTitleTextColor(int colorID){  //设置标题的文字颜色
-        title_center.setTextColor(colorID);
+        titleCenter.setTextColor(colorID);
     }
 
 
     public void setTitleLeftImage(int picID){  //设置标题左侧图片按钮的图片
-        title_left.setImageResource(picID);
+        titleLeft.setImageResource(picID);
     }
 
 
     public void setTitleRightImage(int picID){  //设置标题右侧图片按钮的图片
-        title_right.setImageResource(picID);
+        titleRight.setImageResource(picID);
     }
 
 

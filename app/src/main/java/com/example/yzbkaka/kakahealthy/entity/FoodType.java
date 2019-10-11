@@ -14,15 +14,15 @@ public class FoodType {  //食物类型
         return foodType;
     }
 
-    public void setFood_type(String foodType) {
+    public void setFoodType(String foodType) {
         this.foodType = foodType;
     }
 
-    public List<FoodMessage> getFood_list() {  //返回给类型食物的列表
+    public List<FoodMessage> getFoodList() {  //返回给类型食物的列表
         return foodList;
     }
 
-    public void setFood_list(List<FoodMessage> foodList) {
+    public void setFoodList(List<FoodMessage> foodList) {
         this.foodList = foodList;
     }
 }

@@ -217,7 +217,7 @@ public class SportFragment extends Fragment {
     private void setDownLoadMessageToView(String resultStr){  //将天气数据显示到界面上
         todayInfo = HttpUtil.parseNowJSON(resultStr);  //获取当日的天气数据
         pmInfo = HttpUtil.parsePMInfoJSON(resultStr);  //获取PM2.5的数据
-        if(isAdded()){  //判断fragment是否被加载到Activity当中
+        /*if(isAdded()){  //判断fragment是否被加载到Activity当中
             getActivity().runOnUiThread(new Runnable() {  //切换到主线程中去更改UI
                 @Override
                 public void run() {
@@ -226,7 +226,7 @@ public class SportFragment extends Fragment {
                     cityAirQuality.setText(context.getString(R.string.quality) + pmInfo.getQuality());
                 }
             });
-        }
+        }*/
     }
 
     private String formatDouble(Double doubles){  //格式化Double类型数据，使之保留2位小数

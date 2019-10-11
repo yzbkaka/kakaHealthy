@@ -1,9 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.yzbkaka.kakahealthy.activity.PlayActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/title_layout"/>
+
+    <TextView
+        android:id="@+id/play_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/width_size_3"
+        android:layout_marginLeft="@dimen/width_size_10"
+        android:layout_marginRight="@dimen/width_size_10"
+        android:layout_margin="@dimen/width_size_3"
+        android:background="@color/watm_background_gray"
+        android:drawableLeft="@mipmap/mrkj_ran"
+        android:drawableRight="@mipmap/mrkj_ran"
+        android:gravity="center"
+        android:text="运动名称"
+        android:textColor="@color/red"
+        android:textSize="@dimen/font_size_16"/>
+
+    <ImageView
+        android:id="@+id/play_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/width_size_280"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/width_size_0"
+        android:layout_margin="@dimen/width_size_10"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/down_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/play_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:drawableRight="@mipmap/mrkj_turn_right"
+                android:gravity="right"
+                android:text="运动说明"
+                android:textColor="@color/theme_blue_two"
+                android:textSize="@dimen/font_size_16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="运动记录"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_16" />
+
+                <TextView
+                    android:id="@+id/play_time"
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="00:00"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_16" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/play_progress"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:max="12" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_0"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/play_on_or_off"
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/mrkj_play_start" />
+                <ImageView
+                    android:id="@+id/play_next"
+                    android:visibility="visible"
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/mrkj_next_btn" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/back_sport"
+                android:layout_marginTop="@dimen/width_size_30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@null"
+                android:text="完成热身"
+                android:textSize="@dimen/font_size_20"
+                android:background="@drawable/btn_blue_selector"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/down_two"
+            android:visibility="gone"
+            android:background="@color/watm_background_gray"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/play_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:drawableLeft="@mipmap/mrkj_turn_left"
+                android:gravity="right"
+                android:text="返回"
+                android:textColor="@color/theme_blue_two"
+                android:textSize="@dimen/font_size_16" />
+            <TextView
+                android:id="@+id/play_message"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_16"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
