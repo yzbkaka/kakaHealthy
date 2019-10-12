@@ -16,16 +16,15 @@ import com.example.yzbkaka.kakahealthy.R;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {  //抽象类（必须被继承）
-
     private TextView titleCenter;  //标题的中间部分
-    private ImageView titleLeft;
-    private ImageView titleRight;  //标题的左边和右边
-    private RelativeLayout titleRelativeLayout;  //布局
+    private ImageView titleLeft;  //标题的左边
+    private ImageView titleRight;  //标题的右边
+    private RelativeLayout titleRelativeLayout;  //标题的布局
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutToView();
+        getLayoutToView();  //都是后面定义的抽象方法
         initValues();
         setActivityTitle();
         initViews();
@@ -38,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
         titleCenter = (TextView) findViewById(R.id.titles);
         titleLeft = (ImageView) findViewById(R.id.left_btn);
         titleRight = (ImageView) findViewById(R.id.right_btn);
-        titleLeft.setVisibility(View.INVISIBLE);
+        titleLeft.setVisibility(View.INVISIBLE);  //先设置为不可见
         titleRight.setVisibility(View.INVISIBLE);
         titleRelativeLayout = (RelativeLayout) findViewById(R.id.title_back);
     }
@@ -60,14 +59,14 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
 
     public void setTitle(String name){  //设置标题名称
         titleCenter.setText(name);
-        titleLeft.setVisibility(View.INVISIBLE);  //设置可见
+        titleLeft.setVisibility(View.INVISIBLE);  //设置不可见
     }
 
 
     public void setTitle(String name,final Activity activity){  //设置标题返回键功能
         titleCenter.setText(name);
         titleLeft.setVisibility(View.VISIBLE);
-        titleLeft.setOnClickListener(new View.OnClickListener() {
+        titleLeft.setOnClickListener(new View.OnClickListener() {  //返回键功能
             @Override
             public void onClick(View v) {
                 activity.finish();
