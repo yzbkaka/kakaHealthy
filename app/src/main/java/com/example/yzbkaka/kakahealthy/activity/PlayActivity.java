@@ -22,16 +22,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class PlayActivity extends BaseActivity implements View.OnClickListener {
-    private int index;
+    private int index;  //位置
     private int what;  //设置标记位
     private boolean isNext;
     private boolean isOff;  //判断开始或者暂停
     private TextView playTime;  //运动时间
     private TextView playName;  //运动名称
-    private TextView playMessage;  //运动信息
+    private TextView playMessage;  //运动信息（2号布局）
     private boolean isChange;  //布局是否替换
     private TextView playMore;  //运动说明
-    private TextView playBack;
+    private TextView playBack;  //返回（2号布局）
     private ImageView imageView;  //运动的示范图
     private ImageView playSwitch;  //开始、暂停运动开关
     private ImageView playNext;  //开始下一个运动
@@ -42,11 +42,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout two;  //2号布局
     private int doplan;  //设置计划
     private boolean isClose;  //判断线程是否关闭
-    private Thread thread;
-    private int values;
+    private Thread thread;  //线程
+    private int values;  //值
     private ProgressBar progressBar;  //运动进度条
 
-    private int[] frameRes = new int[]{  //运动画面的id
+    private int[] frameRes = new int[]{  //运动类型画面的id
             R.drawable.donghua1,
             R.drawable.donghua2,
             R.drawable.donghua3,
@@ -89,7 +89,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void setActivityTitle() {  //设置标题
-        initTitle();
+        initTitle();  //继承自BaseActivity的方法
         setTitle("运动", this);
         setMyBackGround(R.color.watm_background_gray);
         setTitleTextColor(R.color.theme_blue_two);
@@ -106,7 +106,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initValues() {  //初始化数据
         isNext = false;
-        index = getIntent().getIntExtra("play_type",0);  //获取Intent中传递的消息
+        //获取Intent中传递的消息
+        index = getIntent().getIntExtra("play_type",0);
         what = getIntent().getIntExtra("what",0);
         doplan = getIntent().getIntExtra("do_hint",0);
         if (doplan == 1){
@@ -133,7 +134,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
 
 
     @Override
-    protected void setViewsListener() {  //设按钮监听
+    protected void setViewsListener() {  //设置按钮监听
         playBack.setOnClickListener(this);
         playMore.setOnClickListener(this);
         playSwitch.setOnClickListener(this);
@@ -145,35 +146,35 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.play_on_or_off:  //开关
+            case R.id.play_on_or_off:  //播放、暂停
                 isNext = false;
                 if (!isOff){  //如果是正在播放阶段
                     animationDrawable.start();  //播放动画
                     values = 0;
-                    playSwitch.setImageResource(R.mipmap.mrkj_play_stop);
-                    isOff = true;
+                    playSwitch.setImageResource(R.mipmap.mrkj_play_stop);  //更换图标为停止
+                    isOff = true;  //确认是暂停
                     isClose = false;
                     runThread();
 
                 }else {  //如果是暂停阶段
                     animationDrawable.stop();  //停止动画
                     values = 0;
-                    isOff = false;
-                    playSwitch.setImageResource(R.mipmap.mrkj_play_start);
+                    isOff = false;  //确认是播放
+                    playSwitch.setImageResource(R.mipmap.mrkj_play_start);  //图标更换为开始
                     isClose = true;
-                    handler.removeMessages(1);
+                    handler.removeMessages(1);  //将消息队列清空
                 }
                 break;
 
             case R.id.play_more:  //运动说明
-                if(isChange == false){
+                if(isChange == false){  //切换到2号布局
                     setShow2();
                     isChange = true;
                 }
                 break;
 
             case R.id.play_back:
-                if (isChange == true){
+                if (isChange == true){  //切换到1号布局
                     setShow();
                     isChange = false;
                 }
@@ -182,28 +183,27 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
             case R.id.play_next://播放下一个
                 isNext = true;
                 index++;
-                if (index > 4){
+                if (index > 4){  //当数量大于4个
                     Toast.makeText(this,"热身完毕请点击返回运动！",Toast.LENGTH_SHORT).show();
                 }else {
                     animationDrawable.stop();
                     isOff = false;
                     isClose = true;
                     handler.removeMessages(1);
-                    playName.setText(DemoApplication.shuoming[index]);
-                    imageView.setImageResource(frameRes[index]);
+                    playName.setText(DemoApplication.shuoming[index]);  //显示热身名称
+                    imageView.setImageResource(frameRes[index]);  //显示热身的动画
                     animationDrawable = (AnimationDrawable) imageView.getDrawable();
                     if (animationDrawable.isRunning()){
                         animationDrawable.stop();
                     }
-                    playSwitch.setImageResource(R.mipmap.mrkj_play_start);
+                    playSwitch.setImageResource(R.mipmap.mrkj_play_start);  //将图片设置为播放（此时是暂停）
                     progressBar.setProgress(0);
                     playTime.setText("00:00");
-
                 }
                 break;
 
             case R.id.back_sport:
-                finish();  //结束该Activity
+                finish();  //结束该PlayActivity
                 break;
 
             default:
@@ -237,6 +237,28 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    private void runThread(){  //开启线程
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isClose){
+                    try {
+                        Thread.sleep(1000);
+                        Message message = Message.obtain();
+                        message.obj = ++values;
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+        thread.start();
+    }
+
+
     private void setShow(){  //展示布局
         one.setVisibility(View.VISIBLE);  //1号布局设置为可见
         two.setVisibility(View.GONE);  //2号布局设置为不可见
@@ -244,8 +266,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void setShow2(){
-        one.setVisibility(View.GONE);  //设置1号可见
-        two.setVisibility(View.VISIBLE);  //设置2号不可见
+        one.setVisibility(View.GONE);  //设置1号不可见
+        two.setVisibility(View.VISIBLE);  //设置2号可见
     }
 
 
@@ -275,28 +297,6 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
             }
         }
         return null;
-    }
-
-
-    private void runThread(){
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!isClose){
-                    try {
-                        Thread.sleep(1000);
-                        Message message = Message.obtain();
-                        message.obj = ++values;
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-        thread.start();
     }
 
 

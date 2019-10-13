@@ -17,15 +17,15 @@ import java.io.IOException;
 
 public class DemoApplication extends Application {
     public static Bitmap[] bitmaps = new Bitmap[5];  //存储具体的热身运动
-    public static String[] shuoming = new String[5];  //对热身运动的描述
+    public static String[] shuoming = new String[5];  //对热身运动的名称
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        new GetLocation(getApplicationContext());  //定位
-        SaveKeyValues.createSharePreferences(this);
-        bitmaps[0] = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.mrkj_fushen1);  //初始化热身运动
+        //new GetLocation(getApplicationContext());  //定位
+        SaveKeyValues.createSharePreferences(this);  //创建数据库
+        bitmaps[0] = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.mrkj_fushen1);  //初始化热身运动的图片
         bitmaps[1] = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.mrkj_fuwocheng1);
         bitmaps[2] = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.mrkj_gunlun1);
         bitmaps[3] = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.mrkj_wotui1);

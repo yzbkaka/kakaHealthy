@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:background="@color/watm_background_gray"
+                android:orientation="vertical">
+
+                <mrkj.library.wheelview.circleimageview.CircleImageView
+                    android:id="@+id/head_pic"
+                    android:layout_width="@dimen/width_size_80"
+                    android:layout_height="@dimen/width_size_80"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/width_size_20"
+                    android:src="@mipmap/mrkj_girl_blue"
+                    app:border_color="@android:color/transparent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/font_size_20"
+                    android:layout_marginTop="@dimen/width_size_10"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="昵称："
+                        android:textColor="@color/theme_blue_two"
+                        android:textSize="@dimen/font_size_20"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/show_name"
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/nick"
+                        android:textColor="@color/green_two"
+                        android:textSize="@dimen/font_size_20" />
+
+                    <ImageButton
+                        android:id="@+id/change_person_values"
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/change_selector" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_0"
+                android:layout_marginBottom="@dimen/width_size_5"
+                android:layout_marginTop="@dimen/width_size_5"
+                android:layout_weight="1"
+                android:background="@color/watm_background_gray"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/width_size_20"
+                        android:layout_marginRight="@dimen/width_size_20"
+                        android:text="目标"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size_18" />
+
+                    <TextView
+                        android:id="@+id/want"
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/width_size_20"
+                        android:layout_marginRight="@dimen/width_size_20"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="体重"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/font_size_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_size_20"
+                    android:layout_marginRight="@dimen/width_size_20"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/steps"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size_18" />
+
+                    <TextView
+                        android:id="@+id/show_steps"
+                        android:layout_width="@dimen/width_size_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/steps"
+                        android:textColor="@color/theme_blue_two"
+                        android:textSize="@dimen/font_size_18" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/width_size_2"
+                    android:layout_marginBottom="@dimen/width_size_3"
+                    android:layout_marginLeft="@dimen/width_size_20"
+                    android:layout_marginRight="@dimen/width_size_20"
+                    android:layout_marginTop="@dimen/width_size_3"
+                    android:background="@color/black" />
+
+                <lecho.lib.hellocharts.view.LineChartView
+                    android:id="@+id/step_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/width_size_240"
+                    android:layout_marginBottom="@dimen/width_size_10"
+                    android:layout_marginLeft="@dimen/width_size_20"
+                    android:layout_marginRight="@dimen/width_size_20"
+                    android:layout_marginTop="@dimen/width_size_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:background="@drawable/gray_background"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/width_size_5"
+                    android:text="目标步数"
+                    android:textColor="@color/theme_blue_one"
+                    android:textSize="@dimen/font_size_18" />
+
+                <EditText
+                    android:id="@+id/change_step"
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="6000"
+                    android:maxLength="5"
+                    android:numeric="integer"
+                    android:textColor="@color/theme_blue_one"
+                    android:textSize="@dimen/font_size_18" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/width_size_5"
+                    android:text="步"
+                    android:textColor="@color/theme_blue_one"
+                    android:textSize="@dimen/font_size_20" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/food_hot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_5"
+                android:background="@color/watm_background_gray"
+                android:drawableRight="@mipmap/mrkj_go_to"
+                android:paddingBottom="@dimen/width_size_5"
+                android:paddingLeft="@dimen/width_size_20"
+                android:paddingRight="@dimen/width_size_20"
+                android:paddingTop="@dimen/width_size_5"
+                android:text="食物热量对照表"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:id="@+id/sport_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_5"
+                android:background="@color/watm_background_gray"
+                android:drawableRight="@mipmap/mrkj_go_to"
+                android:paddingBottom="@dimen/width_size_5"
+                android:paddingLeft="@dimen/width_size_20"
+                android:paddingRight="@dimen/width_size_20"
+                android:paddingTop="@dimen/width_size_5"
+                android:text="@string/sport_history"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:id="@+id/plan_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_5"
+                android:background="@color/watm_background_gray"
+                android:drawableRight="@mipmap/mrkj_go_to"
+                android:paddingBottom="@dimen/width_size_5"
+                android:paddingLeft="@dimen/width_size_20"
+                android:paddingRight="@dimen/width_size_20"
+                android:paddingTop="@dimen/width_size_5"
+                android:text="我的计划"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:id="@+id/about_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/width_size_10"
+                android:layout_marginTop="@dimen/width_size_5"
+                android:background="@color/watm_background_gray"
+                android:drawableRight="@mipmap/mrkj_go_to"
+                android:paddingBottom="@dimen/width_size_5"
+                android:paddingLeft="@dimen/width_size_20"
+                android:paddingRight="@dimen/width_size_20"
+                android:paddingTop="@dimen/width_size_5"
+                android:text="@string/about"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
