@@ -9,24 +9,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yzbkaka.kakahealthy.R;
 import com.example.yzbkaka.kakahealthy.activity.FoodHotListActivity;
-import com.example.yzbkaka.kakahealthy.base.BaseActivity;
+import com.example.yzbkaka.kakahealthy.db.DatasDao;
 import com.example.yzbkaka.kakahealthy.entity.SaveKeyValues;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -44,20 +41,20 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private static final int CHANGE = 200;
     private View view;  //布局
     private Context context;
-    private CircleImageView head_image;  //显示头像
-    private ImageButton change_values;  //更改信息按钮
-    private TextView custom_name;  //用户名称
-    private TextView want;  //目标体重
+    private CircleImageView headImage;  //显示头像
+    private ImageButton changeValues;  //更改信息按钮
+    private TextView customName;  //用户名称
+    private TextView wantHeight;  //目标体重
     private LineChartView lineChartView;  //统计图
     private LineChartData data;  //数据集
     private float[] points = new float[7];  //折线点的数组
-    private DatasDao datasDao;  //读取数据工具
-    private TextView show_steps;  //显示今日已走的步数
-    private TextView food;  //食物热量对照表
+    private DatasDao datasDao;  //导入数据工具
+    private TextView showSteps;  //显示今日已走的步数
+    private TextView foodHot;  //食物热量对照表
     private EditText steps;  //步数
     private TextView about;  //关于我们
-    private TextView sport_message;  //运动信息
-    private TextView plan_btn;  //计划
+    private TextView sportHistory;  //运动历史
+    private TextView MyPlan;  //我的计划
 
 
     @Override
@@ -70,25 +67,29 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mine, null);
+
         //开始初始化控件
-        head_image = (CircleImageView) view.findViewById(R.id.head_pic);
-        custom_name = (TextView) view.findViewById(R.id.show_name);
-        change_values = (ImageButton) view.findViewById(R.id.change_person_values);
-        change_values.setOnClickListener(this);  //点击跳转到编辑个人信息界面
-        show_steps = (TextView) view.findViewById(R.id.show_steps);
+        headImage = (CircleImageView) view.findViewById(R.id.head_pic);
+        customName = (TextView) view.findViewById(R.id.show_name);
+        changeValues = (ImageButton) view.findViewById(R.id.change_person_values);
+        showSteps = (TextView) view.findViewById(R.id.show_steps);
         lineChartView = (LineChartView) view.findViewById(R.id.step_chart);
-        food = (TextView) view.findViewById(R.id.food_hot);
-        food.setOnClickListener(this);
-        want = (TextView) view.findViewById(R.id.want);
-        want.setText("在" + SaveKeyValues.getStringValues("plan_stop_date","2016年6月16日")+"体重达到【"+SaveKeyValues.getIntValues("weight",50)+"】公斤");
+        foodHot = (TextView) view.findViewById(R.id.food_hot);
+        wantHeight = (TextView) view.findViewById(R.id.want);
         about = (TextView) view.findViewById(R.id.about_btn);
-        about.setOnClickListener(this);
-        sport_message = (TextView) view.findViewById(R.id.sport_btn);
-        sport_message.setOnClickListener(this);
+        sportHistory = (TextView) view.findViewById(R.id.sport_btn);
         steps = (EditText) view.findViewById(R.id.change_step);
+        MyPlan = (TextView) view.findViewById(R.id.plan_btn);
+
+        //开始设置控件的功能
+        changeValues.setOnClickListener(this);  //点击跳转到编辑个人信息界面
+        foodHot.setOnClickListener(this);
+        wantHeight.setText("在" + SaveKeyValues.getStringValues("plan_stop_date","2019年10月16日")+"体重达到【"+SaveKeyValues.getIntValues("weight",50)+"】公斤");
+        about.setOnClickListener(this);
+        sportHistory.setOnClickListener(this);
         steps.setText(SaveKeyValues.getIntValues("step_plan" , 6000) + "");
-        plan_btn = (TextView) view.findViewById(R.id.plan_btn);
-        plan_btn.setOnClickListener(this);
+        MyPlan.setOnClickListener(this);
+
         if (isAdded()) {
             datasDao = new DatasDao(getContext());
         }
@@ -98,7 +99,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {  //设置点击事件
         switch (v.getId()) {
             case R.id.change_person_values:  //编辑个人信息
                 startActivityForResult(new Intent(context, CompileDetailsActivity.class), CHANGE);
@@ -125,16 +126,16 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void showMessage() {
+    public void showMessage() {  //展示用户信息
         String name = SaveKeyValues.getStringValues("nick", "未填写");  //获取名称
         String image_path = SaveKeyValues.getStringValues("path", "path");  //获取图片路径
-        custom_name.setText(name);  //设置用户昵称
+        customName.setText(name);  //设置用户昵称
         if (!"path".equals(image_path)) {
             Bitmap bitmap = BitmapFactory.decodeFile(image_path);
-            head_image.setImageBitmap(bitmap);  //设置用户头像
+            headImage.setImageBitmap(bitmap);  //设置用户头像
         }
         int today_steps = SaveKeyValues.getIntValues("sport_steps", 0);  //获得今日步数
-        show_steps.setText(today_steps + "步");  //展示今日步数
+        showSteps.setText(today_steps + "步");  //展示今日步数
 
         //设置图表
         //获取保存的数据
@@ -147,15 +148,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private void getDataValues(int count) {  //绘制折线图
         //用来做X轴的标签
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);//获取日期
+        int day = calendar.get(Calendar.DAY_OF_MONTH);  //获取日期
         //点的集合
         List<PointValue> list;
         int[] dateArray = new int[7];
         dateArray[6] = day;
         if (count == 0){
-           // Log.e("没有数据","1");
             getNestDayDate(dateArray, dateArray.length - 2);
-            //Log.e("集合元素", Arrays.toString(dateArray));
             //设置X轴的坐标说明
             List<AxisValue> axisValues = new ArrayList<>();
             for (int i = 0; i < points.length; i++) {
@@ -194,10 +193,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             data.setLines(lines);
             data.setAxisYLeft(axisy);
             data.setAxisXBottom(axisx);
-        }else if(count > 0 && count < 7){//数据库中数据大于0小于6
-            //Log.e("有数据","7个以下");
+        }else if(count > 0 && count < 7){  //数据库中数据大于0小于6
             getNestDayDate(dateArray, dateArray.length - 2);
-            //Log.e("集合元素", Arrays.toString(dateArray));
             List<AxisValue> axisValues = new ArrayList<>();
             for (int i = 0; i < points.length; i++) {
                 AxisValue axisValue = new AxisValue(i);
@@ -244,9 +241,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             data.setAxisYLeft(axisy);
             data.setAxisXBottom(axisx);
         }else{
-            //Log.e("有数据","7个以上");
-            getNestDayDate(dateArray, dateArray.length - 2);
-            //Log.e("集合元素", Arrays.toString(dateArray));
+            getNestDayDate(dateArray, dateArray.length - 2);  //获取到6天的数据
             List<AxisValue> axisValues = new ArrayList<>();
             for (int i = 0; i < points.length; i++) {
                 AxisValue axisValue = new AxisValue(i);
@@ -263,7 +258,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     .setHasLines(true)
                     .setMaxLabelChars(5);
             list = new ArrayList<>();
-            int length = count - 6 + 1;//开始去元素的ID
+            int length = count - 6 + 1;  //开始去元素的ID
             for (int i = length; i <= count ; i ++){
                 int b = 0;
                 Cursor cursor = datasDao.selectValue2("step",null,"_id=?",new String[]{String.valueOf(i)},null,null,null);
@@ -318,7 +313,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }*/
 
 
-    private void getNestDayDate(int[] dateList, int k) {  //获取未来的6天日期
+    private void getNestDayDate(int[] dateList, int k) {  //获取未来的6天日期（折线图）
         Calendar calendar = Calendar.getInstance();
         for (int i = k; i >= 0; i--) {
             calendar.add(Calendar.DATE, -1);
@@ -327,11 +322,11 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {  //获得后面活动的数据
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHANGE && resultCode == Activity.RESULT_OK) {
             showMessage();
-            //Log.e("返回", "success");
         }
     }
 
@@ -339,7 +334,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!"".equals(steps.getText().toString())){
+        if (!"".equals(steps.getText().toString())){  //存储步数数据
             SaveKeyValues.putIntValues("step_plan",Integer.parseInt(steps.getText().toString()));
         }else {
             SaveKeyValues.putIntValues("step_plan",6000);

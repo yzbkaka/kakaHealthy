@@ -1,6 +1,6 @@
 package com.example.yzbkaka.kakahealthy.activity;
 
-import android.app.ExpandableListActivity;
+
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +27,7 @@ public class FoodHotListActivity extends BaseActivity {
     private ExpandableListView dataList;  //列表
     private Bitmap[] bitmaps;  //存放图片资源
     private int[] ids;  //存放图片资源的id数组
+
 
     @Override
     protected void setActivityTitle() {  //设置标题栏

@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/width_size_20"
                         android:layout_marginRight="@dimen/width_size_20"
-                        android:text="目标"
+                        android:text="目标体重"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size_18" />
 
