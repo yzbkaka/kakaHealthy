@@ -1,14 +1,20 @@
 package com.example.yzbkaka.kakahealthy.activity;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,6 +22,7 @@ import android.widget.TextView;
 import com.example.yzbkaka.kakahealthy.R;
 import com.example.yzbkaka.kakahealthy.base.BaseActivity;
 import com.example.yzbkaka.kakahealthy.entity.SaveKeyValues;
+import com.example.yzbkaka.kakahealthy.utils.GetPictureFromLocation;
 
 import java.io.File;
 import java.util.Calendar;
@@ -119,17 +126,22 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
 
 
     public void getTodayDate(){  //获取今日日期
-        Map<String,Object> map = DateUtils.getDate();
+        Calendar calendar = Calendar.getInstance();
+        now_year = calendar.get(Calendar.YEAR);
+        now_month = calendar.get(Calendar.MONTH + 1);
+        now_day = calendar.get(Calendar.DATE);
+
+       /* Map<String,Object> map = DateUtils.getDate();
         now_year = (int) map.get("year");
         now_month = (int) map.get("month");
-        now_day = (int) map.get("day");
+        now_day = (int) map.get("day");*/
     }
 
 
 
     @Override
     protected void setViewsListener() {  //设置监听
-        head_image.setOnClickListener(this);
+        change_image.setOnClickListener(this);
         change_OK_With_Save.setOnClickListener(this);
         change_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -169,7 +181,7 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.head_pic:  //更改头像
+            case R.id.change_image:  //更改头像
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("选择图片");
                 builder.setMessage("可以通过相册和拍照来修改默认图片！");
@@ -190,8 +202,22 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
                 });
                 builder.show();
                 break;
+
             case R.id.change_date:  //更改生日
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        birth_year = year;
+                        birth_month = monthOfYear;
+                        birth_day = dayOfMonth;
+                        date = birth_year+"-"+birth_month+"-"+birth_day;
+                        change_birthDay.setText(date);
+                    }
+                },birth_year,birth_month - 1,birth_day);
+                datePickerDialog.setTitle("请选择生日日期");
+                datePickerDialog.show();
                 break;
+
             case R.id.change_ok:  //保存退出
                 if(tempFile != null){
                     SaveKeyValues.putStringValues("path",tempFile.getPath());
@@ -216,18 +242,71 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
                 }
                 finish();  //活动结束
                 break;
+
             default:
                 break;
         }
     }
 
 
-    public void gallery(){
-
+    public void gallery(){  //打开相册
+        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);  //ACTION_OPEN_DOCUMENT
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/jpeg");
+        if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){
+            startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+        }else{
+            startActivityForResult(intent, PHOTO_REQUEST_GALLERY2);
+        }
     }
 
 
-    public void camera(){
+    public void camera(){  //打开手机相机
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME)));
+        startActivityForResult(intent, PHOTO_REQUEST_CAMERA);  //需要下一个活动的返回数据
+    }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){  //获得相册和照相返回过来的数据
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == PHOTO_REQUEST_GALLERY || requestCode == PHOTO_REQUEST_GALLERY2){
+            if(date != null){
+                String path = GetPictureFromLocation.selectImage(getApplicationContext(),data);
+                crop(Uri.parse("file://"+path));
+            }
+        }
+        if(requestCode == PHOTO_REQUEST_CAMERA){
+            crop(Uri.fromFile(tempFile));
+        }
+        if(requestCode == PHOTO_REQUEST_CUT){
+            try{
+                Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getPath());
+                head_image.setImageBitmap(bitmap);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public void crop(Uri uri){  //对图片进行裁剪
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // 裁剪框的比例，1：1
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // 裁剪后输出图片的尺寸大小
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("scale", true);//黑边
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+        // 图片格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);// 取消人脸识别
+        intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 }
