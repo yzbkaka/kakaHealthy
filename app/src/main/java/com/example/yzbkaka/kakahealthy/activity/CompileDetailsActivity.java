@@ -33,14 +33,14 @@ import mrkj.library.wheelview.circleimageview.CircleImageView;
 public class CompileDetailsActivity extends BaseActivity implements View.OnClickListener {
     private static final int PHOTO_REQUEST_CAMERA = 1;  // 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;  // 从相册中选择
-    private static final int PHOTO_REQUEST_GALLERY2 = 4;  // 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;  // 结果
+    private static final int PHOTO_REQUEST_GALLERY2 = 4;  // 从相册中选择
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";  // 图片名称
     //头像
     private CircleImageView head_image;  //显示头像
     private TextView change_image;  //更换头像
     private String path;  //头像的路径
-    private File tempFile;  //图片路径
+    private File tempFile;  //临时文件
     //昵称
     private String nick_str;  //用户昵称
     private EditText change_nick;  //修改昵称
@@ -188,8 +188,8 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
                 builder.setPositiveButton("图库", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);  //获得图片的路径
-                        gallery();  //打开相册
+                        tempFile = new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME);  //获得临时文件
+                        gallery();  //打开相册                                                             //获得新的文件路径和名字
                     }
                 });
 
@@ -252,9 +252,9 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
     public void gallery(){  //打开相册
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT);  //ACTION_OPEN_DOCUMENT
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/jpeg");
-        if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){
-            startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+        intent.setType("image/jpeg");  //设置获得图片的功能
+        if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){  //判断版本
+            startActivityForResult(intent, PHOTO_REQUEST_GALLERY);  //打开相册的操作（请求码）
         }else{
             startActivityForResult(intent, PHOTO_REQUEST_GALLERY2);
         }
@@ -262,25 +262,25 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
 
 
     public void camera(){  //打开手机相机
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME)));
-        startActivityForResult(intent, PHOTO_REQUEST_CAMERA);  //需要下一个活动的返回数据
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");  //添加打开相机的操作
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), PHOTO_FILE_NAME)));  //键值和数据
+        startActivityForResult(intent, PHOTO_REQUEST_CAMERA);  //打开相机操作
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){  //获得相册和照相返回过来的数据
         super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == PHOTO_REQUEST_GALLERY || requestCode == PHOTO_REQUEST_GALLERY2){
+        if(requestCode == PHOTO_REQUEST_GALLERY || requestCode == PHOTO_REQUEST_GALLERY2){  //如果是相册返回过来的数据
             if(date != null){
-                String path = GetPictureFromLocation.selectImage(getApplicationContext(),data);
-                crop(Uri.parse("file://"+path));
+                String path = GetPictureFromLocation.selectImage(getApplicationContext(),data);  //获得从相册选择图片的路径
+                crop(Uri.parse("file://"+path));  //对图片进行裁剪
             }
         }
-        if(requestCode == PHOTO_REQUEST_CAMERA){
+        if(requestCode == PHOTO_REQUEST_CAMERA){  //如果是相机返回过来的数据
             crop(Uri.fromFile(tempFile));
         }
-        if(requestCode == PHOTO_REQUEST_CUT){
+        if(requestCode == PHOTO_REQUEST_CUT){  //如果返回过来的是裁剪的数据
             try{
                 Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getPath());
                 head_image.setImageBitmap(bitmap);
@@ -292,7 +292,7 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
 
 
     public void crop(Uri uri){  //对图片进行裁剪
-        Intent intent = new Intent("com.android.camera.action.CROP");
+        Intent intent = new Intent("com.android.camera.action.CROP");  //放入裁剪的动作
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
@@ -307,6 +307,6 @@ public class CompileDetailsActivity extends BaseActivity implements View.OnClick
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);  //启动裁剪
     }
 }

@@ -85,22 +85,20 @@ public class GetPictureFromLocation {
 
     public static String selectImage(Context context,Intent data){
         Uri selectedImage = data.getData();
-//      Log.e(TAG, selectedImage.toString());
         if(selectedImage != null){
             String uriStr = selectedImage.toString();
-            String path = uriStr.substring(10,uriStr.length());
-            if(path.startsWith("com.sec.android.gallery3d")){
-                //Log.e("sss", "It's auto backup pic path:" + selectedImage.toString());
+            String path = uriStr.substring(10,uriStr.length());  //获取从10位之后的字符串
+            if(path.startsWith("com.sec.android.gallery3d")){  //如果path是按照该字符串开头
                 return null;
             }
         }
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String picturePath = cursor.getString(columnIndex);
+        Cursor cursor = context.getContentResolver().query(selectedImage,filePathColumn, null, null, null);  //开始进行查询
+        cursor.moveToFirst();  //将cursor指向第一行
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);  //获得列名
+        String picturePath = cursor.getString(columnIndex);  //获得该行该列的数据
         cursor.close();
-        return picturePath;
+        return picturePath;  //返回图片的路径
     }
 
 }

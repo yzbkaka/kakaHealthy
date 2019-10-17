@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/width_size_0"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/width_size_10"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/data_all"
+                android:background="@drawable/btn_green3_selector"
+                android:layout_width="@dimen/width_size_0"
+                android:layout_weight="1"
+                android:minHeight="@null"
+                android:layout_height="wrap_content"
+                android:text="@string/all"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20"/>
+
+            <Button
+                android:id="@+id/data_day"
+                android:minHeight="@null"
+                android:background="@drawable/btn_blue2_selector"
+                android:layout_width="@dimen/width_size_0"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/find_day"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/all_data"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width_size_0"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/width_size_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_20"
+                android:text="累计运动时间："/>
+
+            <TextView
+                android:id="@+id/sport_scores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_20"
+                android:layout_marginBottom="@dimen/width_size_20"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="45sp"
+                android:text="0分"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/left_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_size_20"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text="完成计划"/>
+
+                    <TextView
+                        android:id="@+id/finish_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/width_size_10"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/left_hint"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/finish_plan"
+                        android:text="次"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/center_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_size_20"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text="累计运动"/>
+
+                    <TextView
+                        android:id="@+id/sport_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/width_size_10"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/center_hint"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/sport_day"
+                        android:text="天"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/right_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_size_20"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text="累计消耗"/>
+
+                    <TextView
+                        android:id="@+id/sport_hot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/width_size_10"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/right_hint"
+                        android:text="0"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="26sp"
+                        android:layout_below="@+id/sport_hot"
+                        android:text="大卡"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/font_size_20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_16"
+                android:textColor="@color/black"
+                android:text="累计的运动天数(当前/最大)"/>
+
+            <ProgressBar
+                android:id="@+id/data_progress"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:progress="1"
+                android:max="7" />
+
+            <TextView
+                android:layout_marginTop="@dimen/font_size_20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_16"
+                android:gravity="right"
+                android:textColor="@color/black"
+                android:text="1天/7天"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/day_data"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width_size_0"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/width_size_10"
+            android:padding="@dimen/width_size_10">
+
+            <TextView
+                android:id="@+id/null_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:text="没有数据"
+                android:gravity="center"/>
+
+            <ListView
+                android:id="@+id/data_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:divider="@color/theme_blue_two"
+                android:cacheColorHint="#00000000"
+                android:listSelector="#00000000"
+                android:dividerHeight="@dimen/width_size_2"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

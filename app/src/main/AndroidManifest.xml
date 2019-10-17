@@ -32,7 +32,9 @@
         <service android:name=".service.StepCounterService" />
 
         <activity android:name=".activity.FoodHotListActivity" />
-        <activity android:name=".activity.CompileDetailsActivity"></activity>
+        <activity android:name=".activity.CompileDetailsActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.SportMessageActivity"></activity>
     </application>
 
 </manifest>
