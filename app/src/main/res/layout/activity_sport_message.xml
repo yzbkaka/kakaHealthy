@@ -46,7 +46,7 @@
 
         <LinearLayout
             android:id="@+id/all_data"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_size_0"
             android:layout_weight="1"
@@ -61,7 +61,7 @@
                 android:text="累计运动时间："/>
 
             <TextView
-                android:id="@+id/sport_scores"
+                android:id="@+id/sport_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/width_size_20"

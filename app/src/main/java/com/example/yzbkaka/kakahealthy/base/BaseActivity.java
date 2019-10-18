@@ -22,7 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
     private RelativeLayout titleRelativeLayout;  //标题的布局
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {  //方法会被继承，然后自动调用
         super.onCreate(savedInstanceState);
         getLayoutToView();  //都是后面定义的抽象方法
         initValues();
