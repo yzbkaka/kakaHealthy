@@ -46,7 +46,7 @@
 
         <LinearLayout
             android:id="@+id/all_data"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_size_0"
             android:layout_weight="1"
@@ -126,7 +126,7 @@
                         android:text="累计运动"/>
 
                     <TextView
-                        android:id="@+id/sport_day"
+                        android:id="@+id/sport_days"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"

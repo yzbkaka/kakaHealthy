@@ -34,7 +34,8 @@
         <activity android:name=".activity.FoodHotListActivity" />
         <activity android:name=".activity.CompileDetailsActivity" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.SportMessageActivity"></activity>
+        <activity android:name=".activity.SportMessageActivity" />
+        <activity android:name=".activity.MinePlanActivity"></activity>
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {  //抽象类（�
     private ImageView titleRight;  //标题的右边
     private RelativeLayout titleRelativeLayout;  //标题的布局
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //方法会被继承，然后自动调用
         super.onCreate(savedInstanceState);
