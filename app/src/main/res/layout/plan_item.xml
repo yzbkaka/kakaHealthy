@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_size_5"
+        android:text="开始日期-结束日期"
+        android:gravity="center"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/theme_blue_two" />
+
+    <TextView
+        android:id="@+id/hint_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/width_size_5"
+        android:text="提示时间"
+        android:gravity="center"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/theme_blue_two" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="@dimen/width_size_10">
+
+        <ImageView
+            android:id="@+id/image_show"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/mrkj_fuwocheng1"/>
+
+        <LinearLayout
+            android:layout_width="@dimen/width_size_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/project_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/cishu1"
+                android:layout_marginTop="@dimen/width_size_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="次数"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_18"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/width_size_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/update_plan"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_0"
+                android:layout_weight="1"
+                android:text="添加计划"
+                android:textColor="@color/theme_blue_one"
+                android:textSize="@dimen/font_size_18"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/delete_plan"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_0"
+                android:layout_weight="1"
+                android:text="删除计划"
+                android:textColor="@color/theme_blue_one"
+                android:textSize="@dimen/font_size_18"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

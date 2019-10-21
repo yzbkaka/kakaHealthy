@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/watm_background_gray">
+
+    <ListView
+        android:id="@+id/find_list"
+        android:layout_width="match_parent"
+        android:divider="@color/white"
+        android:listSelector="@android:color/transparent"
+        android:dividerHeight="@dimen/width_size_3"
+        android:layout_marginRight="@dimen/width_size_10"
+        android:layout_marginLeft="@dimen/width_size_10"
+        android:layout_marginTop="@dimen/width_size_10"
+        android:layout_marginBottom="@dimen/width_size_10"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

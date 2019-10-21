@@ -20,6 +20,7 @@ import com.example.yzbkaka.kakahealthy.R;
 import com.example.yzbkaka.kakahealthy.activity.AboutActivity;
 import com.example.yzbkaka.kakahealthy.activity.CompileDetailsActivity;
 import com.example.yzbkaka.kakahealthy.activity.FoodHotListActivity;
+import com.example.yzbkaka.kakahealthy.activity.MinePlanActivity;
 import com.example.yzbkaka.kakahealthy.activity.SportMessageActivity;
 import com.example.yzbkaka.kakahealthy.db.DatasDao;
 import com.example.yzbkaka.kakahealthy.entity.SaveKeyValues;

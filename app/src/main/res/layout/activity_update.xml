@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<include layout="@layout/title_layout"/>-->
+
+    <TextView
+        android:id="@+id/to_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/width_size_5"
+        android:background="@drawable/shape_btn_back_background"
+        android:drawableLeft="@mipmap/abc_ic_ab_back_mtrl_am_alpha"
+        android:gravity="center"
+        android:text="@string/back"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_20"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/width_size_5"
+            android:background="@drawable/shape_btn_back_background"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/width_size_5"
+                android:gravity="center"
+                android:text="更改计划提示时间"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_2"
+                android:layout_marginBottom="@dimen/width_size_5"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置提醒时间"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20"
+                android:textStyle="bold" />
+
+            <TimePicker
+                android:id="@+id/timePicker1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_size_2"
+                android:layout_marginBottom="@dimen/width_size_3"
+                android:layout_marginTop="@dimen/width_size_3"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/plan_stop"
+                    android:layout_width="@dimen/width_size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/width_size_3"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_red2_selector"
+                    android:gravity="center"
+                    android:minHeight="@null"
+                    android:text="更改结束日期"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_20"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/set_clock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/width_size_2"
+                android:layout_weight="1"
+                android:background="@drawable/btn_red_selector"
+                android:minHeight="@null"
+                android:text="确定更改计划"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_20"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

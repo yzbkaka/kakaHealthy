@@ -35,7 +35,8 @@
         <activity android:name=".activity.CompileDetailsActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.SportMessageActivity" />
-        <activity android:name=".activity.MinePlanActivity"></activity>
+        <activity android:name=".activity.MinePlanActivity" />
+        <activity android:name=".activity.UpdateActivity"></activity>
     </application>
 
 </manifest>
